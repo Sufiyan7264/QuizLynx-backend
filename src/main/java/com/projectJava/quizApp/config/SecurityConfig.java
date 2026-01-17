@@ -5,6 +5,7 @@ import com.projectJava.quizApp.repo.UserRepo;
 import com.projectJava.quizApp.service.CustomUserDetailsService;
 import com.projectJava.quizApp.utility.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -53,6 +54,9 @@ public class SecurityConfig {
     private UserRepo userRepo;
     @Autowired
     private JWTUtil jwtUtil;
+
+    @Value("${frontend.url}")
+    private String frontendUrl;
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, PasswordEncoder encoder) throws Exception {
@@ -150,24 +154,24 @@ public class SecurityConfig {
                 // 4. SMART REDIRECT
                 // If their role is still PENDING, send them to the selection page
                 if ("PENDING".equals(customer.getRole())) {
-                    response.sendRedirect("https://localhost:4300/select-role");
+                    response.sendRedirect(frontendUrl + "/select-role");
                 } else {
                     // Normal login
                     if("STUDENT".equals(customer.getRole())){
-                        response.sendRedirect("https://localhost:4300/student-dashboard");
+                        response.sendRedirect(frontendUrl + "/student-dashboard");
 
                     }
                     else if("INSTRUCTOR".equals(customer.getRole())){
-                        response.sendRedirect("https://localhost:4300/dashboard");
+                        response.sendRedirect(frontendUrl + "/dashboard");
                     }
                     else{
-                        response.sendRedirect("https://localhost:4300/user-dashboard");
+                        response.sendRedirect(frontendUrl + "/user-dashboard");
                     }
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
-                response.sendRedirect("https://localhost:4300/login?error=processing_failed");
+                response.sendRedirect(frontendUrl + "/login?error=processing_failed");
             }
         };
     }
@@ -177,7 +181,7 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns("https://localhost:4300")
+                        .allowedOriginPatterns(frontendUrl)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true)
