@@ -3,7 +3,6 @@ WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run the application
 FROM openjdk:24.0.1-jdk-slim
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
