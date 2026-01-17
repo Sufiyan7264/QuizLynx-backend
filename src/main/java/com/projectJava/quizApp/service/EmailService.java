@@ -8,6 +8,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +20,7 @@ public class EmailService {
     private String from;
 
 //    @Autowired
-
+    @Async
     public void sendOtpEMail(String to, String otp, int minutesValid,String username){
      try {
          String subject = "Your Verification Code";
@@ -58,6 +59,7 @@ public class EmailService {
      }
     }
 
+    @Async
     public void sendPasswordResetEmail(String email, String otp, String username, int otpExpirationMinutes) {
         try {
             String subject = "Your Verification Code";
