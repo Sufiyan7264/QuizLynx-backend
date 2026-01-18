@@ -26,7 +26,7 @@ public class ContactService {
             // 1. Create a MimeMessage (Required for HTML)
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-
+            helper.setFrom(adminEmail, "QuizLynx Contact Form");
             // 2. Set Email Details
             helper.setTo(adminEmail);
 
@@ -52,7 +52,7 @@ public class ContactService {
             // 5. Send
             mailSender.send(mimeMessage);
 
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Failed to send HTML email", e);
         }
     }
