@@ -181,7 +181,12 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns(frontendUrl)
+                        .allowedOrigins(
+                                "http://localhost:4200",
+                                "https://quizlynx.vercel.app",
+                                "https://quizlynx.in",
+                                "https://www.quizlynx.in"
+                        )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true)
