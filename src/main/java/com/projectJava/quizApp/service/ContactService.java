@@ -17,7 +17,7 @@ public class ContactService {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Value("${spring.mail.username}")
+    @Value("${admin.email}")
     private String adminEmail;
 
     @Async
